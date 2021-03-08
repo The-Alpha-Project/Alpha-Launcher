@@ -8,7 +8,7 @@ To build the project just:
 
 ```bash
 npm install
-npm run make
+npm run pack
 ```
 
-Project is ready to make your running platform executable.
+Compiled executable will be under electron folder.
