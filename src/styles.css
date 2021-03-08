@@ -1,0 +1,262 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+:root {
+    --font-color: white;
+    --background-color: 29, 29, 29;
+}
+
+html, body {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(assets/background.jpg);
+
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+button, input {
+    font-family: inherit;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+
+    -webkit-app-region: drag;
+}
+
+header .toolbar-button {
+    width: 20px;
+    height: 20px;
+
+    margin-right: 10px;
+
+    border: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+header .toolbar-button:hover {
+    opacity: .7;
+}
+
+header .toolbar-button:active, header .toolbar-button:focus {
+    outline: none;
+    border: none;
+}
+
+header .toolbar-button.close {
+    background-image: url(assets/close.png);
+}
+
+header .toolbar-button.minimize {
+    background-image: url(assets/minimize.png);
+}
+
+main {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.wow-logo {
+    width: 280px;
+    margin-bottom: 10px;
+}
+
+.wow-logo img {
+    max-width: 100%;
+}
+
+.login-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 250px;
+
+    padding: 20px 20px 10px;
+    border-radius: 5px;
+    background-color: rgba(var(--background-color), .6);
+
+    backdrop-filter: blur(7px);
+}
+
+.login-container .form-control {
+    width: 100%;
+
+    margin-bottom: 10px;
+}
+
+.login-container .form-control label {
+    display: block;
+    margin-bottom: 3px;
+
+    font-size: .9em;
+    color: var(--font-color);
+}
+
+.login-container .form-control input {
+    display: block;
+    width: 100%;
+    padding: 7px 10px;
+
+    border-radius: 5px;
+    border: none;
+
+    color: var(--font-color);
+    background-color: rgba(var(--background-color), .7);
+}
+
+.login-container .form-control input:focus, .login-container .form-control input:active {
+    border: none;
+    outline: none;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px 0;
+
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    text-align: center;
+    color: var(--font-color);
+    background-color: rgba(var(--background-color), .6);
+
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: rgba(var(--background-color), .8);
+}
+
+.login-container button:active, .login-container button:focus {
+    outline: none;
+    border: none;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+}
+
+#version {
+    margin-left: 10px;
+
+    font-size: .9em;
+    color: var(--font-color);
+}
+
+#realms {
+    display: inline-block;
+
+    padding-left: 20px;
+    margin-left: auto;
+    margin-right: 10px;
+
+    text-align: right;
+    font-size: .9em;
+    color: var(--font-color);
+
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-image: url(assets/change_realms.png);
+
+    cursor: pointer;
+}
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--background-color), .6);
+}
+
+.modal-container {
+    position: relative;
+    z-index: 40;
+    width: 200px;
+
+    overflow: hidden;
+    background-color: rgb(var(--background-color));
+}
+
+.realm-select .modal-container {
+    border-radius: 5px;
+    color: var(--font-color);
+}
+
+.realm-select .modal-container h3 {
+    margin: 0;
+    padding: 10px;
+
+    border-bottom: 1px solid var(--font-color);
+
+    font-weight: normal;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.realm-select .modal-container .realm {
+    padding: 10px 0;
+    text-align: center;
+
+    cursor: pointer;
+    transition: all .1s;
+}
+
+.realm-select .modal-container .realm:hover, .realm-select .modal-container .realm.selected {
+    background-color: #e2b43a;
+}

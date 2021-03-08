@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="default-src 'self'; script-src 'self'" http-equiv="Content-Security-Policy">
+    <meta content="default-src 'self'; script-src 'self'" http-equiv="X-Content-Security-Policy">
+    <title>Alpha launcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <button class="toolbar-button minimize" title="Minimize" type="button"></button>
+        <button class="toolbar-button close" title="Close" type="button"></button>
+    </header>
+
+    <main>
+        <div class="wow-logo">
+            <img src="assets/wow_logo.png" alt="">
+        </div>
+
+        <div class="login-container">
+            <div class="form-control">
+                <label for="username">Username</label>
+                <input id="username" type="text">
+            </div>
+
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input id="password" type="password">
+            </div>
+
+            <button id="loginButton" type="button">Launch client</button>
+        </div>
+    </main>
+
+    <footer>
+        <span id="version"></span>
+        <div id="realms">
+            Realm: Realm#22
+        </div>
+    </footer>
+
+    <div class="modal realm-select">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <h3>Select realm</h3>
+
+            <div class="realms-container"></div>
+        </div>
+    </div>
+</body>
+</html>
