@@ -29,7 +29,6 @@
     "build": {
         "appId": "com.alpha-project.launcher",
         "productName": "Alpha launcher",
-        ""
         "win": {
             "target": ["portable"]
         },
