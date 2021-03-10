@@ -3,7 +3,7 @@
 }
 
 :root {
-    --font-color: white;
+    --font-color: 255, 255, 255;
     --background-color: 29, 29, 29;
 }
 
@@ -112,12 +112,56 @@ main {
     margin-bottom: 10px;
 }
 
+.checkbox {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-gap: 0.5em;
+    align-items: center;
+    font-size: .9em;
+    color: rgb(var(--font-color));
+}
+
+.checkbox__control {
+    display: inline-grid;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.25em;
+    border: 0.1em solid currentColor;
+}
+.checkbox__control svg {
+    transition: transform 0.1s ease-in 25ms;
+    transform: scale(0);
+    transform-origin: bottom left;
+}
+
+.radio__label {
+    vertical-align: middle;
+}
+
+.checkbox__input {
+    display: grid;
+    grid-template-areas: "checkbox";
+}
+.checkbox__input > * {
+    grid-area: checkbox;
+}
+.checkbox__input input {
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+    margin: 0;
+}
+
+.checkbox__input input:checked + .checkbox__control svg {
+    transform: scale(1);
+}
+
 .login-container .form-control label {
     display: block;
     margin-bottom: 3px;
 
     font-size: .9em;
-    color: var(--font-color);
+    color: rgb(var(--font-color));
 }
 
 .login-container .form-control input {
@@ -128,7 +172,7 @@ main {
     border-radius: 5px;
     border: none;
 
-    color: var(--font-color);
+    color: rgb(var(--font-color));
     background-color: rgba(var(--background-color), .7);
 }
 
@@ -147,7 +191,7 @@ main {
     margin-bottom: 10px;
 
     text-align: center;
-    color: var(--font-color);
+    color: rgb(var(--font-color));
     background-color: rgba(var(--background-color), .6);
 
     cursor: pointer;
@@ -178,26 +222,39 @@ footer {
     margin-left: 10px;
 
     font-size: .9em;
-    color: var(--font-color);
+    color: rgb(var(--font-color));
 }
 
-#realms {
+#clear-cache, #realms {
     display: inline-block;
 
     padding-left: 20px;
-    margin-left: auto;
     margin-right: 10px;
 
     text-align: right;
     font-size: .9em;
-    color: var(--font-color);
+    color: rgb(var(--font-color));
 
     background-position: bottom left;
     background-repeat: no-repeat;
     background-size: 18px;
-    background-image: url(assets/change_realms.png);
 
     cursor: pointer;
+}
+
+#clear-cache:hover, #realms:hover {
+    color: rgba(var(--font-color), .7);
+}
+
+#clear-cache {
+    margin-left: auto;
+
+    background-image: url(assets/clear_cache.png);
+}
+
+#realms {
+    margin-left: 10px;
+    background-image: url(assets/change_realms.png);
 }
 
 .modal {
@@ -235,14 +292,14 @@ footer {
 
 .realm-select .modal-container {
     border-radius: 5px;
-    color: var(--font-color);
+    color: rgb(var(--font-color));
 }
 
 .realm-select .modal-container h3 {
     margin: 0;
     padding: 10px;
 
-    border-bottom: 1px solid var(--font-color);
+    border-bottom: 1px solid rgb(var(--font-color));
 
     font-weight: normal;
     font-size: 1.1em;

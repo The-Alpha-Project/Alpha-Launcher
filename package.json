@@ -30,14 +30,14 @@
         "appId": "com.alpha-project.launcher",
         "productName": "Alpha launcher",
         "win": {
+            "icon": "resources/icon.ico",
             "target": ["portable"]
         },
         "portable": {
             "artifactName": "alpha_launcher.exe"
         },
         "directories": {
-            "output": "electron/output",
-            "buildResources": "electron/buildResources"
+            "output": "electron/output"
         }
     }
 }

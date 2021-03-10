@@ -1,7 +1,9 @@
 const fs = require('fs').promises;
+const { existsSync } = require('fs');
 const { EOL } = require('os');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, dialog } = require('electron');
 const { version } = require('../package.json');
+const { execFile } = require('child_process');
 
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.toolbar-button.close').addEventListener('click', () => ipcRenderer.send('close-window'));
@@ -10,16 +12,41 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('version').textContent = `v ${version}`;
     loadWowUsername();
 
-    document.getElementById('loginButton').addEventListener('click', () => {
+    document.getElementById('loginButton').addEventListener('click', async () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const windowed = document.getElementById('windowed').checked;
 
-        fs.writeFile('wow.ses', `${username}${EOL}${password}`);
+        try {
+            const wowArgs = ['-uptodate'];
+
+            if (windowed) {
+                wowArgs.push('-windowed');
+            }
+
+            await fs.writeFile('wow.ses', `${ username }${ EOL }${ password }`);
+            ipcRenderer.send('minimize-window');
+            execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
+        } catch(error) {
+            dialog.showMessageBox({
+                title: 'Error',
+                message: 'Error while login',
+                detail: 'Can\'t write wow.ses file.',
+                type: 'error'
+            });
+        }
     });
 
     loadRealms();
     document.getElementById('realms').addEventListener('click', openChangeRealmModal);
+    document.getElementById('clear-cache').addEventListener('click', clearCache);
 });
+
+function clearCache() {
+    if (existsSync('WDB')) {
+        fs.rmdir('WDB', { recursive: true });
+    }
+}
 
 async function loadWowUsername() {
     const [username, password] = (await fs.readFile('wow.ses')).toString().split(EOL);

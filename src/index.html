@@ -5,7 +5,7 @@
     <meta content="default-src 'self'; script-src 'self'" http-equiv="Content-Security-Policy">
     <meta content="default-src 'self'; script-src 'self'" http-equiv="X-Content-Security-Policy">
     <title>Alpha launcher</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -15,7 +15,7 @@
 
     <main>
         <div class="wow-logo">
-            <img src="assets/wow_logo.png" alt="">
+            <img alt="" src="assets/wow_logo.png">
         </div>
 
         <div class="login-container">
@@ -29,14 +29,33 @@
                 <input id="password" type="password">
             </div>
 
+            <div class="windowed-control">
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                        <input name="checkbox" id="windowed" type="checkbox">
+                        <span class="checkbox__control">
+                            <svg aria-hidden="true" focusable="false" viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+                                <path d='M1.73 12.91l6.37 6.37L22.79 4.59' fill='none' stroke='currentColor' stroke-width='3'/>
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="radio__label">Windowed</span>
+                </label>
+            </div>
+
             <button id="loginButton" type="button">Launch client</button>
         </div>
     </main>
 
     <footer>
         <span id="version"></span>
+
+        <div id="clear-cache">
+            Clear cache
+        </div>
+
         <div id="realms">
-            Realm: Realm#22
+            Realm:
         </div>
     </footer>
 
