@@ -72,7 +72,7 @@ async function loadRealms() {
     const realmsContainer = document.querySelector('.realms-container');
     realmsContainer.innerHTML = '';
     const list = (await fs.readFile('realmlist.wtf')).toString();
-    const realms = list.split('\n').filter(r => r !== '').map(r => ({ selected: !r.startsWith('#'), url: r.substring(r.indexOf('\"') + 1, r.length - 2) }));
+    const realms = list.split('\n').filter(r => r !== '').map(r => ({ selected: !r.startsWith('#'), url: r.substring(r.indexOf('\"') + 1, r.lastIndexOf('\"')) }));
 
     for (const realm of realms) {
         const realmElement = document.createElement('div');
