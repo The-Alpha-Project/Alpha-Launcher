@@ -1,3 +1,4 @@
+const os = require('os');
 const fs = require('fs').promises;
 const { existsSync } = require('fs');
 const { EOL } = require('os');
@@ -26,7 +27,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
             await fs.writeFile('wow.ses', `${ username }${ EOL }${ password }`);
             ipcRenderer.send('minimize-window');
-            execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
+
+            if (os.platform() === 'linux' || os.platform() === 'darwin') {
+                wowArgs.unshift('WoWClient.exe');
+                execFile('wine', wowArgs, () => ipcRenderer.send('maximize-window'));
+            } else if (os.platform() === 'win32') {
+                execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
+            } else {
+                dialog.showMessageBox({
+                    title: 'Error',
+                    message: 'Error running WoWClient',
+                    detail: `Platform '${os.platform()}' not supported.`,
+                    type: 'error'
+                });
+            }
         } catch(error) {
             dialog.showMessageBox({
                 title: 'Error',
