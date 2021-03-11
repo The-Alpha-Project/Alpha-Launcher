@@ -1,7 +1,7 @@
 {
-    "name": "electron-quick-start",
+    "name": "Alpha Launcher",
     "version": "0.1.2",
-    "description": "A minimal Electron application",
+    "description": "Unofficial 0.5.3 game launcher",
     "main": "main.js",
     "scripts": {
         "start": "electron .",
@@ -9,15 +9,14 @@
         "dist": "electron-builder",
         "postinstall": "electron-builder install-app-deps"
     },
-    "repository": "https://github.com/electron/electron-quick-start",
+    "repository": "https://github.com/The-Alpha-Project/Alpha-Launcher",
     "keywords": [
-        "Electron",
-        "quick",
-        "start",
-        "tutorial",
-        "demo"
+        "wow",
+        "warcraft",
+        "3368",
+        "alpha"
     ],
-    "author": "GitHub",
+    "author": "Legomolina",
     "license": "CC0-1.0",
     "devDependencies": {
         "electron": "^12.0.0",
