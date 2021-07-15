@@ -1,5 +1,5 @@
 {
-    "name": "Alpha Launcher",
+    "name": "alpha-launcher",
     "version": "0.1.2",
     "description": "Unofficial 0.5.3 game launcher",
     "main": "main.js",
@@ -30,7 +30,9 @@
         "productName": "Alpha launcher",
         "win": {
             "icon": "resources/icon.ico",
-            "target": ["portable"]
+            "target": [
+                "portable"
+            ]
         },
         "portable": {
             "artifactName": "alpha_launcher.exe"
