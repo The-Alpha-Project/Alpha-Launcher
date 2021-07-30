@@ -1,35 +1,84 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { is } = require('electron-util');
 const path = require('path');
 const fs = require('fs');
+const Store = require('electron-store');
 
 if (require('electron-squirrel-startup')) return app.quit();
 
+const store = new Store();
 let mainWindow;
 
+function selectClientPath() {
+    dialog
+        .showOpenDialog(mainWindow, {
+            title: 'Choose client folder',
+            properties: ['openDirectory'],
+        })
+        .then(({canceled, filePaths}) => {
+            if (filePaths.length > 0) {
+                const [path] = filePaths;
+                if (fs.existsSync(`${path}/WoWClient.exe`)) {
+                    store.set('clientPath', path);
+                } else {
+                    selectClientPath();
+                }
+            } else {
+
+            }
+
+            if (canceled) {
+                app.quit();
+            }
+        })
+        .catch((err) => {
+            dialog.showMessageBox({
+                title: 'Error while selecting the folder',
+                type: 'error',
+                message: 'The folder is either not readable or something has gone wrong, please raise an issue on github with the following details',
+                detail: JSON.stringify(err),
+            }, () => app.quit());
+        });
+}
+
 function createWindow() {
-    if (!fs.existsSync('WoWClient.exe')) {
-        dialog.showMessageBox({
-            message: 'WoWClient.exe not found',
-            type: 'error',
-            title: 'WoWClient.exe not found',
-            detail: 'WoWClient executable not found, move launcher to game folder.'
-        }).then(() => app.quit());
-
-        return;
-    }
-
     mainWindow = new BrowserWindow({
         backgroundColor: '#fff',
         width: 800,
         height: 500,
-        frame: false,
-        titleBarStyle: 'hidden',
-        icon: path.join(__dirname, 'src/assets/icon.png'),
+        frame: is.development,
+        titleBarStyle: is.development ? 'default' : 'hidden',
+        icon: is.linux ? path.join(__dirname, '../../icon.ico') : path.join(__dirname, '/icon.ico'),
         webPreferences: {
-            devTools: false,
+            devTools: is.development,
             preload: path.join(__dirname, 'src/preload.js')
         }
     });
+
+    const clientPath = store.get('clientPath') || '.';
+    if (!fs.existsSync(`${clientPath}/WoWClient.exe`)) {
+        dialog
+            .showMessageBox({
+                title: 'WoWClient.exe not found',
+                type: 'warning',
+                detail: 'WoWClient executable not found, please move launcher to game folder or select the client folder.',
+                buttons: ['Exit', 'Choose client folder'],
+            })
+            .then(({response}) => {
+                switch (response) {
+                    case 1: {
+                        selectClientPath();
+                        return;
+                    }
+                    default: {
+                        app.quit();
+                        return;
+                    }
+                }
+                
+            });
+
+    }
 
     mainWindow.loadFile('src/index.html');
 }

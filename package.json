@@ -23,7 +23,9 @@
         "electron-builder": "^22.11.7"
     },
     "dependencies": {
-        "electron-squirrel-startup": "^1.0.0"
+        "electron-squirrel-startup": "^1.0.0",
+        "electron-store": "^8.0.0",
+        "electron-util": "^0.17.0"
     },
     "build": {
         "appId": "com.alpha-project.launcher",
