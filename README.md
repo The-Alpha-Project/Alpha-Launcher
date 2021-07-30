@@ -4,7 +4,7 @@
 Need node v14+ and npm v6+.
 
 ## Build
-To build the project rim:
+To build the project run:
 
 ```bash
 npm install
