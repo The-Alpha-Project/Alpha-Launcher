@@ -58,7 +58,7 @@ function createWindow() {
     const clientPath = store.get('clientPath') || '.';
     if (!fs.existsSync(`${clientPath}/WoWClient.exe`)) {
         dialog
-            .showMessageBox({
+            .showMessageBox(mainWindow, {
                 title: 'WoWClient.exe not found',
                 type: 'warning',
                 detail: 'WoWClient executable not found, please move launcher to game folder or select the client folder.',
