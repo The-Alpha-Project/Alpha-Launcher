@@ -31,7 +31,8 @@ window.addEventListener('DOMContentLoaded', () => {
             if (os.platform() === 'linux' || os.platform() === 'darwin') {
                 wowArgs.unshift('WoWClient.exe');
                 const wineArgs = wowArgs.map((arg) => `"${arg}"`);
-                spawn('wine', wineArgs, () => ipcRenderer.send('maximize-window'));
+                const process = spawn('wine', wineArgs, { shell: true });
+                process.on('exit', () => ipcRenderer.send('maximize-window'));
             } else if (os.platform() === 'win32') {
                 execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
             } else {
