@@ -20,7 +20,7 @@
     "license": "CC0-1.0",
     "devDependencies": {
         "electron": "^12.0.0",
-        "electron-builder": "^22.10.5"
+        "electron-builder": "^22.11.7"
     },
     "dependencies": {
         "electron-squirrel-startup": "^1.0.0"
@@ -29,7 +29,7 @@
         "appId": "com.alpha-project.launcher",
         "productName": "Alpha launcher",
         "win": {
-            "icon": "resources/icon.ico",
+            "icon": "build/icon.ico",
             "target": [
                 "portable"
             ]
