@@ -34,10 +34,15 @@
                 "portable"
             ]
         },
+        "linux": {
+            "target": "AppImage",
+            "category": "Utility"
+        },
         "portable": {
             "artifactName": "alpha_launcher.exe"
         },
         "directories": {
+            "buildResources": "build",
             "output": "electron/output"
         }
     }

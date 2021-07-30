@@ -4,7 +4,7 @@ const { existsSync } = require('fs');
 const { EOL } = require('os');
 const { ipcRenderer, dialog } = require('electron');
 const { version } = require('../package.json');
-const { execFile } = require('child_process');
+const { execFile, spawn } = require('child_process');
 
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.toolbar-button.close').addEventListener('click', () => ipcRenderer.send('close-window'));
@@ -30,7 +30,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (os.platform() === 'linux' || os.platform() === 'darwin') {
                 wowArgs.unshift('WoWClient.exe');
-                execFile('wine', wowArgs, () => ipcRenderer.send('maximize-window'));
+                const wineArgs = wowArgs.map((arg) => `"${arg}"`);
+                spawn('wine', wineArgs, () => ipcRenderer.send('maximize-window'));
             } else if (os.platform() === 'win32') {
                 execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
             } else {
