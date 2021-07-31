@@ -4,7 +4,11 @@ const { existsSync } = require('fs');
 const { EOL } = require('os');
 const { ipcRenderer, dialog } = require('electron');
 const { version } = require('../package.json');
-const { execFile } = require('child_process');
+const { execFile, spawn } = require('child_process');
+const Store = require('electron-store');
+
+const store = new Store();
+const clientPath = store.get('clientPath');
 
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.toolbar-button.close').addEventListener('click', () => ipcRenderer.send('close-window'));
@@ -25,14 +29,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 wowArgs.push('-windowed');
             }
 
-            await fs.writeFile('wow.ses', `${ username }${ EOL }${ password }`);
+            await fs.writeFile(`${clientPath}/wow.ses`, `${ username }${ EOL }${ password }`);
             ipcRenderer.send('minimize-window');
 
             if (os.platform() === 'linux' || os.platform() === 'darwin') {
-                wowArgs.unshift('WoWClient.exe');
-                execFile('wine', wowArgs, () => ipcRenderer.send('maximize-window'));
+                wowArgs.unshift(`${clientPath}/WoWClient.exe`);
+                const wineArgs = wowArgs.map((arg) => `"${arg}"`);
+                const process = spawn('wine', wineArgs, { shell: true });
+                process.on('exit', () => ipcRenderer.send('maximize-window'));
             } else if (os.platform() === 'win32') {
-                execFile('WoWClient.exe', wowArgs, () => ipcRenderer.send('maximize-window'));
+                execFile(`${clientPath}/WoWClient.exe`, wowArgs, () => ipcRenderer.send('maximize-window'));
             } else {
                 dialog.showMessageBox({
                     title: 'Error',
@@ -57,13 +63,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function clearCache() {
-    if (existsSync('WDB')) {
-        fs.rmdir('WDB', { recursive: true });
+    if (existsSync(`${clientPath}/WDB`)) {
+        fs.rmdir(`${clientPath}/WDB`, { recursive: true });
     }
 }
 
 async function loadWowUsername() {
-    const [username, password] = (await fs.readFile('wow.ses')).toString().split(EOL);
+    const [username, password] = (await fs.readFile(`${clientPath}/wow.ses`)).toString().split(EOL);
     document.getElementById('username').value = username;
     document.getElementById('password').value = password;
 }
@@ -71,7 +77,7 @@ async function loadWowUsername() {
 async function loadRealms() {
     const realmsContainer = document.querySelector('.realms-container');
     realmsContainer.innerHTML = '';
-    const list = (await fs.readFile('realmlist.wtf')).toString();
+    const list = (await fs.readFile(`${clientPath}/realmlist.wtf`)).toString();
     const realms = list.split('\n').filter(r => r !== '').map(r => ({ selected: !r.startsWith('#'), url: r.substring(r.indexOf('\"') + 1, r.lastIndexOf('\"')) }));
 
     for (const realm of realms) {
@@ -109,7 +115,7 @@ function changeRealm(realm, realms) {
     });
 
     realms = realms.join(EOL) + EOL;
-    fs.writeFile('realmlist.wtf', realms).then(() => {
+    fs.writeFile(`${clientPath}/realmlist.wtf`, realms).then(() => {
         document.querySelector('.realm-select').style.display = 'none';
     });
 }
