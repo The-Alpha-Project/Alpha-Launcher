@@ -1,0 +1,63 @@
+name: Version Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:                    
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.17'
+
+      - name: Cache Node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-wp-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install node modules 
+        run: npm install
+
+      - name: Build Electron app
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+
+      - name: Store Build 
+        uses: actions/upload-artifact@v2
+        with:
+          name: electron-build
+          path: |
+            electron/output/*.exe
+            electron/output/*.AppImage
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Get node artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: electron-build
+          path: electron/output      
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            electron/output/*
