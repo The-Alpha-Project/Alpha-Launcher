@@ -1,6 +1,6 @@
 {
     "name": "alpha-launcher",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Unofficial 0.5.3 game launcher",
     "main": "main.js",
     "scripts": {
