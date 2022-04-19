@@ -1,10 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { is } = require('electron-util');
 const path = require('path');
-const { clientExists } = require( path.join(process.resourcePath, 'utils', 'client-check') );
+const { clientExists } = require( './src/utils/client-check.js' );
 
-
-if (require('electron-squirrel-startup')) return app.exit(1);
+const squirrel = require('electron-squirrel-startup')
+if (squirrel) {
+    app.exit(1);
+}
 
 let mainWindow;
 
@@ -18,7 +20,9 @@ function createWindow() {
         icon: is.linux ? path.join(__dirname, '../../icon.ico') : path.join(__dirname, '/icon.ico'),
         webPreferences: {
             devTools: is.development,
-            preload: path.join(__dirname, 'src/preload.js')
+            preload: path.join(__dirname, 'src/preload.js'),
+            nodeIntegration: true,
+            contextIsolation: false,
         }
     });
 

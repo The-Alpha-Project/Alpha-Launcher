@@ -6,6 +6,7 @@ const store = new Store();
 
 function clientSelect() {
     const mainWindow = BrowserWindow.getFocusedWindow();
+    mainWindow.setAlwaysOnTop(false);
     dialog
         .showOpenDialog(mainWindow, {
             title: 'Choose client folder',
@@ -17,7 +18,8 @@ function clientSelect() {
                 if (fs.existsSync(`${path}/WoWClient.exe`)) {
                     store.set('clientPath', path);
                 } else {
-                    clientSelect();
+                    // Retrigger dialog
+                    clientExists();
                 }
             } else {
 
@@ -38,6 +40,7 @@ function clientSelect() {
                 detail: JSON.stringify(err),
             }, () => app.exit(1));
         });
+    mainWindow.setAlwaysOnTop(true);
 }
 
 function clientExists() {
@@ -69,7 +72,7 @@ function clientExists() {
 }
 
 
-export default {
+module.exports = {
   clientSelect,
   clientExists,
 }

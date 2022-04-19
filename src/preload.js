@@ -28,11 +28,13 @@ window.addEventListener('DOMContentLoaded', () => {
         clientExists();
 
         try {
-            const wowArgs = ['-uptodate'];
+            const wowArgs = [];
 
             if (windowed) {
                 wowArgs.push('-windowed');
             }
+
+            wowArgs.push('-uptodate');
 
             await fs.writeFile(`${clientPath}/wow.ses`, `${ username }${ EOL }${ password }`);
             ipcRenderer.send('minimize-window');
