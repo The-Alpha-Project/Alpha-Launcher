@@ -5,7 +5,7 @@ on:
     tags:
       - "v*"
 
-jobs:                    
+jobs:
   build:
     runs-on: ${{ matrix.os }}
 
@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
-          node-version: '14.17'
+          node-version: '16.14'
 
       - name: Cache Node modules
         uses: actions/cache@v2
@@ -28,7 +28,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-wp-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install node modules 
+      - name: Install node modules
         run: npm install
 
       - name: Build Electron app
@@ -37,7 +37,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release: false
 
-      - name: Store Build 
+      - name: Store Build
         uses: actions/upload-artifact@v2
         with:
           name: electron-build
@@ -54,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: electron-build
-          path: electron/output      
+          path: electron/output
 
       - name: Create Release
         uses: softprops/action-gh-release@v1

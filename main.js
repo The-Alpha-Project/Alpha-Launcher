@@ -1,11 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { is } = require('electron-util');
 const path = require('path');
-const { clientExists } = require( './src/utils/client-check.js' );
+const { clientExists } = require( path.resolve((process.resourcePath || './src'), 'utils', 'client-check') );
 
-const squirrel = require('electron-squirrel-startup')
-if (squirrel) {
+if (require('electron-squirrel-startup')) {
     app.exit(1);
+    return;
 }
 
 let mainWindow;

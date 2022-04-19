@@ -6,7 +6,8 @@ const { ipcRenderer, dialog } = require('electron');
 const { version } = require('../package.json');
 const { execFile, spawn } = require('child_process');
 const Store = require('electron-store');
-const { clientExists } = require( path.join(process.resourcePath, 'utils', 'client-check') );
+const path = require('path');
+const { clientExists } = require( path.resolve((process.resourcePath || './src'), 'utils', 'client-check') );
 
 const store = new Store();
 const clientPath = store.get('clientPath');
