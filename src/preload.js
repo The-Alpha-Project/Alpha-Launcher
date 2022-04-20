@@ -6,8 +6,6 @@ const { ipcRenderer, dialog } = require('electron');
 const { version } = require('../package.json');
 const { execFile, spawn } = require('child_process');
 const Store = require('electron-store');
-const path = require('path');
-const { clientExists } = require( path.resolve((process.resourcePath || './src'), 'utils', 'client-check') );
 
 const store = new Store();
 const clientPath = store.get('clientPath');
@@ -23,10 +21,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const windowed = document.getElementById('windowed').checked;
-
-        // Check if the client exists in the folder again
-        // this will retrigger a dialog if the launcher has been moved
-        clientExists();
 
         try {
             const wowArgs = [];

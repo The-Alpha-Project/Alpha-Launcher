@@ -46,15 +46,6 @@
         "directories": {
             "buildResources": "build",
             "output": "electron/output"
-        },
-        "extraResources": [
-            {
-                "from": "./src/utils/",
-                "to": "utils",
-                "filter": [
-                    "**/*"
-                ]
-            }
-        ]
+        }
     }
 }
